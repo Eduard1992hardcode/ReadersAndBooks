@@ -15,10 +15,24 @@ namespace ReadersAndBooks.Services
         List<HumanDTO> GetHumen();
 
         /// <summary>
+        /// Получить писателя по любому из реквизитов
+        /// </summary>
+        /// <param name="query"> Имя, фамилия и т.д.</param>
+        /// <returns></returns>
+        public List<HumanDTO> GetHuman(string query);
+
+        /// <summary>
         /// Авторы у которых есть книги
         /// </summary>
         /// <returns></returns>
         List<HumanDTO> GetWriters();
+
+        /// <summary>
+        /// Поиск книги по Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public BookDTO GetBook(int id);
 
         /// <summary>
         /// Добавление человека

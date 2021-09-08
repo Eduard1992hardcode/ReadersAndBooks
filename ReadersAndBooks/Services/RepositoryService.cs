@@ -46,9 +46,14 @@ namespace ReadersAndBooks.Services
             return _books;
         }
 
+        public BookDTO GetBook(int id)
+        {
+            return _books.Where(x => x.Id == id).FirstOrDefault();
+        }
+
         public List<BookDTO> GetBookBiAuthorId(int authorId)
         {
-            var books = (List<BookDTO>) _books.Where(x => x.AuthorId == authorId);
+            var books =  _books.Where(x => x.AuthorId == authorId).ToList(); ;
             return books;
         }
 
@@ -63,6 +68,9 @@ namespace ReadersAndBooks.Services
       .Where(x => x.Books.Any())
       .ToList();
             return writes;
+        }
+        public List<HumanDTO> GetHuman(string query) {
+            return _humen.Where(x => x.Name.Contains(query) || x.Surname.Contains(query) || x.Patronymic.Contains(query)).ToList();
         }
     }
 }
