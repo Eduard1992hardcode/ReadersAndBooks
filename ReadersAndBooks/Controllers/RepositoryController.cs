@@ -4,8 +4,7 @@ using ReadersAndBooks.Dto;
 using ReadersAndBooks.Services;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Text;
 
 namespace ReadersAndBooks.Controllers
 {
@@ -23,45 +22,49 @@ namespace ReadersAndBooks.Controllers
         }
 
 
-
-        public string GetHuman(string query) {
+        [Route("api/getHuman")]
+        public IActionResult GetHuman(string query) {
             try
             {
-                string search = "Найдены записи:" + "/n";
-                foreach (var h in _repositoryService.GetHuman(query)) {
-                    _logger.LogInformation("Найдена запись: " + h.ToString());
-                    search = h.ToString() + "/n";
+                var search = new StringBuilder("Найдены авторы:" + "/n");
+                foreach (var humen in _repositoryService.GetWriters())
+                {
+                    _logger.LogInformation($"Получен список: {humen}");
+                    search.AppendLine(humen.ToString());
                 }
-                return search;
+                return Ok(search.ToString());
+
             }
-            catch (Exception)
+            catch (Exception e)
             {
 
-                throw;
+                return BadRequest(e.Message);
             }
         }
-
-        public string GetWriters()
+        [Route("api/getWriters")]
+        public IActionResult GetWriters()
         {
             try
             {
-                string search = "Список людей:" + "/n";
-                foreach (var h in _repositoryService.GetWriters())
+                var result = new StringBuilder("Список людей:" + "/n");
+
+                foreach (var humen in _repositoryService.GetWriters())
                 {
-                   search = h.ToString() + "/n";
+                    _logger.LogInformation($"Получен список: {humen}");
+                    result.AppendLine(humen.ToString()); 
                 }
-                _logger.LogInformation("Получен список: " + search);
-                return search;
+                return Ok(result.ToString());
 
             }
-            catch (Exception)
+            catch (Exception e)
             {
 
-                throw;
+                return BadRequest(e.Message);
             }
 
         }
 
+        [Route("api/delHuman")]
         [HttpDelete("{id}")]
         public void DeleteHuman(int id)
         {
@@ -69,18 +72,20 @@ namespace ReadersAndBooks.Controllers
             _repositoryService.DeleteHuman(id);
         }
 
+        [Route("api/addHuman")]
         public void AddHuman([FromBody] HumanDTO human)
         {
             _logger.LogInformation("Человек : " + human.Name + " " + human.Surname + " добавлен");
             _repositoryService.AddHuman(human);
         }
 
+        [Route("api/addBook")]
         public void AddBook([FromBody] BookDTO book)
         {
             _logger.LogInformation("Книга : " + book.Title + " добавленa");
             _repositoryService.AddBook(book);
         }
-
+        [Route("api/delBook")]
         [HttpDelete("{id}")]
         public void DeleteBook(int id)
         {
@@ -88,9 +93,11 @@ namespace ReadersAndBooks.Controllers
             _repositoryService.DeleteBook(id);
         }
 
+        [Route("api/bookBiAuhorId")]
+        [HttpGet("{id}")]
         public ActionResult<List<BookDTO>> GetBooksBiAuhorId(int id) {
-           
-           return _repositoryService.GetBookBiAuthorId(id);
+            _logger.LogInformation("Получен список книг состоящий из " + _repositoryService.GetBookBiAuthorId(id).Count + " книг");
+            return _repositoryService.GetBookBiAuthorId(id);
         }
 
            

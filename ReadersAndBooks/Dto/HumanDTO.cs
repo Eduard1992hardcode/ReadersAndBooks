@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ReadersAndBooks.Dto
 {
@@ -13,5 +11,10 @@ namespace ReadersAndBooks.Dto
        public string Patronymic { get; set; }
        public DateTime Birthday { get; set; }
        public List<BookDTO> Books { get; set; }
+
+        public override string ToString()
+        {
+            return this.Name + " " + this.Patronymic + " " + this.Surname;
+        }
     }
 }

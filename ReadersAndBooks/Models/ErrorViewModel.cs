@@ -1,5 +1,3 @@
-using System;
-
 namespace ReadersAndBooks.Models
 {
     public class ErrorViewModel

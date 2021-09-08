@@ -1,12 +1,10 @@
 ﻿using ReadersAndBooks.Dto;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ReadersAndBooks.Services
 {
-    public class MuteDb
+    public static class MuteDb
     {
         public static List<BookDTO> GetBooks() {
             var books = new List<BookDTO>(){

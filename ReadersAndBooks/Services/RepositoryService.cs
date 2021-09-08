@@ -1,8 +1,6 @@
 ﻿using ReadersAndBooks.Dto;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace ReadersAndBooks.Services
 {
@@ -31,13 +29,15 @@ namespace ReadersAndBooks.Services
 
         public void DeleteBook(int id)
         {
-            var book = _books.Where(x => x.Id == id).FirstOrDefault();
+            var book = _books
+                .Where(x => x.Id == id).FirstOrDefault();
             _books.Remove(book);
         }
 
         public void DeleteHuman(int id)
         {
-            var human = _humen.Where(x => x.Id == id).FirstOrDefault();
+            var human = _humen.
+                Where(x => x.Id == id).FirstOrDefault();
             _humen.Remove(human);
         }
 
@@ -48,12 +48,14 @@ namespace ReadersAndBooks.Services
 
         public BookDTO GetBook(int id)
         {
-            return _books.Where(x => x.Id == id).FirstOrDefault();
+            return _books
+                .Where(x => x.Id == id).FirstOrDefault();
         }
 
         public List<BookDTO> GetBookBiAuthorId(int authorId)
         {
-            var books =  _books.Where(x => x.AuthorId == authorId).ToList(); ;
+            var books =  _books
+                .Where(x => x.AuthorId == authorId).ToList(); ;
             return books;
         }
 
@@ -65,12 +67,16 @@ namespace ReadersAndBooks.Services
         public List<HumanDTO> GetWriters()
         {
            var writes = _humen
-      .Where(x => x.Books.Any())
-      .ToList();
+               .Where(x => x.Books.Any())
+               .ToList();
             return writes;
         }
         public List<HumanDTO> GetHuman(string query) {
-            return _humen.Where(x => x.Name.Contains(query) || x.Surname.Contains(query) || x.Patronymic.Contains(query)).ToList();
+            return _humen
+                .Where(x => x.Name.Contains(query)
+                || x.Surname.Contains(query)
+                ||
+         x.Patronymic.Contains(query)).ToList();
         }
     }
 }

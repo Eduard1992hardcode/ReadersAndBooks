@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace ReadersAndBooks.Dto
+﻿namespace ReadersAndBooks.Dto
 {
     public class BookDTO
     {
@@ -13,5 +8,10 @@ namespace ReadersAndBooks.Dto
         public string Genre { get; set; }
         public int AuthorId { get; set; }
 
-    }
+        public override string ToString()
+        {
+            return this.Title;
+        }
+
+     }
 }
