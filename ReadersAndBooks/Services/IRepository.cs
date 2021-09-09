@@ -41,7 +41,7 @@ namespace ReadersAndBooks.Services
         /// Удаление человека
         /// </summary>
         /// <param name="id"> Id человека, которого необходимо удалить</param>
-        void DeleteHuman(int id);
+        string DeleteHuman(int id);
 
         /// <summary>
         /// Получить список книг

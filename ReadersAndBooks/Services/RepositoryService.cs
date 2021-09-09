@@ -1,4 +1,5 @@
-﻿using ReadersAndBooks.Dto;
+﻿using Microsoft.Extensions.Logging;
+using ReadersAndBooks.Dto;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -6,11 +7,12 @@ namespace ReadersAndBooks.Services
 {
     public class RepositoryService : IRepository
     {
-        private List<HumanDTO> _humen;
-        private List<BookDTO> _books;
+        private readonly List<HumanDTO> _humen;
+        private readonly List<BookDTO> _books;
+        private readonly ILogger<RepositoryService> _logger;
 
-        public RepositoryService() {
-
+        public RepositoryService(ILogger<RepositoryService> logger) {
+            _logger = logger;
             _books = MuteDb.GetBooks();
             _humen = MuteDb.GetHumen();
 
@@ -19,26 +21,43 @@ namespace ReadersAndBooks.Services
 
         public void AddBook(BookDTO book)
         {
+            _logger.LogInformation("Книга : " + book.Title + " добавленa");
             _books.Add(book);
         }
 
         public void AddHuman(HumanDTO human)
         {
+            _logger.LogInformation("Человек : " + human.Name + " " + human.Surname + " добавлен");
             _humen.Add(human);
         }
 
         public void DeleteBook(int id)
         {
-            var book = _books
-                .Where(x => x.Id == id).FirstOrDefault();
-            _books.Remove(book);
+            if (GetBook(id).Equals(null))
+            {
+                _logger.LogInformation("Книга с Id: " + id + " не найдена");
+
+            }
+            else
+            {
+                var book = _books
+                    .Where(x => x.Id == id).FirstOrDefault();
+
+                _books.Remove(book);
+            }
         }
 
-        public void DeleteHuman(int id)
+        public string DeleteHuman(int id)
         {
             var human = _humen.
                 Where(x => x.Id == id).FirstOrDefault();
+            if (human.Equals(null)) { 
+                _logger.LogInformation("Человек с id: " + id + " не найден");
+                return null;
+            }
+            _logger.LogInformation("Человек с id: " + id + " удален");
             _humen.Remove(human);
+            return "+";
         }
 
         public List<BookDTO> GetBook()
@@ -69,6 +88,7 @@ namespace ReadersAndBooks.Services
            var writes = _humen
                .Where(x => x.Books.Any())
                .ToList();
+            _logger.LogInformation($"Получен список: {writes}");
             return writes;
         }
         public List<HumanDTO> GetHuman(string query) {

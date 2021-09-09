@@ -13,12 +13,10 @@ namespace ReadersAndBooks.Controllers
     public class RepositoryController : Controller
     {
         private readonly IRepository _repositoryService;
-        private readonly ILogger<RepositoryController> _logger;
-
-        public RepositoryController(IRepository repositoryService, ILogger<RepositoryController> logger)
+        
+        public RepositoryController(IRepository repositoryService)
         {
             _repositoryService = repositoryService;
-            _logger = logger;
         }
 
 
@@ -29,7 +27,6 @@ namespace ReadersAndBooks.Controllers
                 var search = new StringBuilder("Найдены авторы:" + "/n");
                 foreach (var humen in _repositoryService.GetWriters())
                 {
-                    _logger.LogInformation($"Получен список: {humen}");
                     search.AppendLine(humen.ToString());
                 }
                 return Ok(search.ToString());
@@ -50,7 +47,6 @@ namespace ReadersAndBooks.Controllers
 
                 foreach (var humen in _repositoryService.GetWriters())
                 {
-                    _logger.LogInformation($"Получен список: {humen}");
                     result.AppendLine(humen.ToString()); 
                 }
                 return Ok(result.ToString());
@@ -58,45 +54,57 @@ namespace ReadersAndBooks.Controllers
             }
             catch (Exception e)
             {
-
-                return BadRequest(e.Message);
+              return BadRequest(e.Message);
             }
 
         }
 
         [Route("api/delHuman")]
         [HttpDelete("{id}")]
-        public void DeleteHuman(int id)
+        public IActionResult DeleteHuman(int id)
         {
-            _logger.LogInformation("Человек с id: " + id + " удален");
-            _repositoryService.DeleteHuman(id);
+
+            if (_repositoryService.DeleteHuman(id).Equals(null))
+                return BadRequest("Запись с Id: " + id + " не найдена.");
+
+            return Ok("Человек : " + id + " удален");
         }
 
         [Route("api/addHuman")]
-        public void AddHuman([FromBody] HumanDTO human)
+        public IActionResult AddHuman([FromBody] HumanDTO human)
         {
-            _logger.LogInformation("Человек : " + human.Name + " " + human.Surname + " добавлен");
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
             _repositoryService.AddHuman(human);
+            return Ok("Человек : " + human.Name + " " + human.Surname + " добавлен");
         }
 
         [Route("api/addBook")]
-        public void AddBook([FromBody] BookDTO book)
+        public IActionResult AddBook([FromBody] BookDTO book)
         {
-            _logger.LogInformation("Книга : " + book.Title + " добавленa");
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
             _repositoryService.AddBook(book);
+            return Ok("Книга : " + book.Title + " добавленa");
         }
         [Route("api/delBook")]
         [HttpDelete("{id}")]
-        public void DeleteBook(int id)
+        public IActionResult DeleteBook(int id)
         {
-            _logger.LogInformation("Книга : " + _repositoryService.GetBook(id).Title + " добавленa");
+            if (_repositoryService.GetBook(id).Equals(null))
+                return BadRequest("Книги с Id: " + id + " нет в списке");
+            
             _repositoryService.DeleteBook(id);
+            return Ok("Книга : " + _repositoryService.GetBook(id).Title + " удалена");
+            
         }
 
         [Route("api/bookBiAuhorId")]
         [HttpGet("{id}")]
         public ActionResult<List<BookDTO>> GetBooksBiAuhorId(int id) {
-            _logger.LogInformation("Получен список книг состоящий из " + _repositoryService.GetBookBiAuthorId(id).Count + " книг");
+            if (_repositoryService.GetBookBiAuthorId(id).Count == 0)
+                return BadRequest("Книги не найдены");
+            
             return _repositoryService.GetBookBiAuthorId(id);
         }
 
