@@ -108,6 +108,26 @@ namespace ReadersAndBooks.Controllers
             return _repositoryService.GetBookBiAuthorId(id);
         }
 
-           
+        [Route("api/getBookBiQuery")]
+        public IActionResult GetBookBiQuery(string query)
+        {
+            try
+            {
+                var search = new StringBuilder("Найдены книги:" + "/n");
+                foreach (var books in _repositoryService.GetBooksBiQuery(query))
+                {
+                    search.AppendLine(books.ToString());
+                }
+                return Ok(search.ToString());
+
+            }
+            catch (Exception e)
+            {
+
+                return BadRequest(e.Message);
+            }
+        }
+
+
     }
 }

@@ -98,5 +98,13 @@ namespace ReadersAndBooks.Services
                 ||
          x.Patronymic.Contains(query)).ToList();
         }
+        public List<BookDTO> GetBooksBiQuery(string query)
+        {
+            return _books
+                .Where(x => x.Author.Contains(query)
+                || x.Genre.Contains(query)
+                ||
+         x.Title.Contains(query)).ToList();
+        }
     }
 }

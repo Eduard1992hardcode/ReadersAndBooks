@@ -68,5 +68,12 @@ namespace ReadersAndBooks.Services
         /// <param name="id">Id книги, которую необходимо удалить</param>
         void DeleteBook(int id);
 
+        /// <summary>
+        /// Получение списка книг с сортировкой по автору, имени книги и жанру.
+        /// </summary>
+        /// <param name="query">Автору, имя книги или жанр</param>
+        /// <returns></returns>
+        public List<BookDTO> GetBooksBiQuery(string query);
+
     }
 }
