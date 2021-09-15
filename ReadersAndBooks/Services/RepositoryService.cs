@@ -11,7 +11,8 @@ namespace ReadersAndBooks.Services
         private readonly List<BookDTO> _books;
         private readonly ILogger<RepositoryService> _logger;
 
-        public RepositoryService(ILogger<RepositoryService> logger) {
+        public RepositoryService(ILogger<RepositoryService> logger)
+        {
             _logger = logger;
             _books = MuteDb.GetBooks();
             _humen = MuteDb.GetHumen();
@@ -51,7 +52,8 @@ namespace ReadersAndBooks.Services
         {
             var human = _humen.
                 Where(x => x.Id == id).FirstOrDefault();
-            if (human.Equals(null)) { 
+            if (human.Equals(null))
+            {
                 _logger.LogInformation("Человек с id: " + id + " не найден");
                 return null;
             }
@@ -73,7 +75,7 @@ namespace ReadersAndBooks.Services
 
         public List<BookDTO> GetBookBiAuthorId(int authorId)
         {
-            var books =  _books
+            var books = _books
                 .Where(x => x.AuthorId == authorId).ToList(); ;
             return books;
         }
@@ -85,13 +87,14 @@ namespace ReadersAndBooks.Services
 
         public List<HumanDTO> GetWriters()
         {
-           var writes = _humen
-               .Where(x => x.Books.Any())
-               .ToList();
+            var authorsId = _books.Select(o => o.AuthorId).Distinct().ToList();
+            var writes = _humen
+                .Where(a => authorsId.Contains(a.Id)).ToList();
             _logger.LogInformation($"Получен список: {writes}");
             return writes;
         }
-        public List<HumanDTO> GetHuman(string query) {
+        public List<HumanDTO> GetHuman(string query)
+        {
             return _humen
                 .Where(x => x.Name.Contains(query)
                 || x.Surname.Contains(query)

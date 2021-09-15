@@ -13,54 +13,34 @@ namespace ReadersAndBooks.Controllers
     public class RepositoryController : Controller
     {
         private readonly IRepository _repositoryService;
-        
+
         public RepositoryController(IRepository repositoryService)
         {
             _repositoryService = repositoryService;
         }
 
 
-        [Route("api/getHuman")]
-        public IActionResult GetHuman(string query) {
-            try
-            {
-                var search = new StringBuilder("Найдены авторы:" + "/n");
-                foreach (var humen in _repositoryService.GetWriters())
-                {
-                    search.AppendLine(humen.ToString());
-                }
-                return Ok(search.ToString());
+        [HttpGet("api/getHuman")]
+        public IActionResult GetHuman()
+        {
+            var search = new StringBuilder("Найдены авторы: " + "\n");
+            foreach (var humen in _repositoryService.GetHumen())
+                search.AppendLine(humen.ToString());
 
-            }
-            catch (Exception e)
-            {
-
-                return BadRequest(e.Message);
-            }
+            return Ok(search.ToString());
         }
-        [Route("api/getWriters")]
+
+        [HttpGet("api/getWriters")]
         public IActionResult GetWriters()
         {
-            try
-            {
-                var result = new StringBuilder("Список людей:" + "/n");
+            var result = new StringBuilder("Список людей:" + "\n");
+            foreach (var humen in _repositoryService.GetWriters())
+                result.AppendLine(humen.ToString());
 
-                foreach (var humen in _repositoryService.GetWriters())
-                {
-                    result.AppendLine(humen.ToString()); 
-                }
-                return Ok(result.ToString());
-
-            }
-            catch (Exception e)
-            {
-              return BadRequest(e.Message);
-            }
-
+            return Ok(result.ToString());
         }
 
-        [Route("api/delHuman")]
-        [HttpDelete("{id}")]
+        [HttpPut("api/delHuman")]
         public IActionResult DeleteHuman(int id)
         {
 
@@ -70,7 +50,7 @@ namespace ReadersAndBooks.Controllers
             return Ok("Человек : " + id + " удален");
         }
 
-        [Route("api/addHuman")]
+        [HttpPost("api/addHuman")]
         public IActionResult AddHuman([FromBody] HumanDTO human)
         {
             if (!ModelState.IsValid)
@@ -79,7 +59,7 @@ namespace ReadersAndBooks.Controllers
             return Ok("Человек : " + human.Name + " " + human.Surname + " добавлен");
         }
 
-        [Route("api/addBook")]
+        [HttpPost("api/addBook")]
         public IActionResult AddBook([FromBody] BookDTO book)
         {
             if (!ModelState.IsValid)
@@ -87,45 +67,36 @@ namespace ReadersAndBooks.Controllers
             _repositoryService.AddBook(book);
             return Ok("Книга : " + book.Title + " добавленa");
         }
-        [Route("api/delBook")]
-        [HttpDelete("{id}")]
+
+        [HttpPut("api/delBook")]
         public IActionResult DeleteBook(int id)
         {
             if (_repositoryService.GetBook(id).Equals(null))
                 return BadRequest("Книги с Id: " + id + " нет в списке");
-            
+
             _repositoryService.DeleteBook(id);
             return Ok("Книга : " + _repositoryService.GetBook(id).Title + " удалена");
-            
+
         }
 
-        [Route("api/bookBiAuhorId")]
-        [HttpGet("{id}")]
-        public ActionResult<List<BookDTO>> GetBooksBiAuhorId(int id) {
+        [HttpGet("api/bookBiAuhorId")]
+        public ActionResult<List<BookDTO>> GetBooksBiAuhorId(int id)
+        {
             if (_repositoryService.GetBookBiAuthorId(id).Count == 0)
                 return BadRequest("Книги не найдены");
-            
+
             return _repositoryService.GetBookBiAuthorId(id);
         }
 
-        [Route("api/getBookBiQuery")]
+        [HttpGet("api/getBookBiQuery")]
         public IActionResult GetBookBiQuery(string query)
         {
-            try
+            var search = new StringBuilder("Найдены книги:" + "\n");
+            foreach (var books in _repositoryService.GetBooksBiQuery(query))
             {
-                var search = new StringBuilder("Найдены книги:" + "/n");
-                foreach (var books in _repositoryService.GetBooksBiQuery(query))
-                {
-                    search.AppendLine(books.ToString());
-                }
-                return Ok(search.ToString());
-
+                search.AppendLine(books.ToString());
             }
-            catch (Exception e)
-            {
-
-                return BadRequest(e.Message);
-            }
+            return Ok(search.ToString());
         }
 
 
