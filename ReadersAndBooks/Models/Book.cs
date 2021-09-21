@@ -10,5 +10,6 @@ namespace ReadersAndBooks.Models
         public int AuthorId { get; set; }
 
         public virtual Author Author { get; set; }
+        public virtual List<Genre> Genres { get; set; }
     }
 }

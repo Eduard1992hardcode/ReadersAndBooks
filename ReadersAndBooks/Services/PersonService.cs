@@ -30,6 +30,7 @@ namespace ReadersAndBooks.Services
             var libraryCard = new LibraryCard { BookId = bookId, PersonId = personId };
             _dataContext.Add(libraryCard);
             _dataContext.SaveChanges();
+            return _dataContext.Books.Find(bookId);
         }
 
         public bool DeletePerson(int id)
