@@ -20,7 +20,7 @@ namespace ReadersAndBooks.Services
             _dataContext = dataContext;
             _logger = logger;
         }
-        public async Task<BookDTO> AddBook(BookCreateDto dto)
+        public async Task<Book> AddBook(BookCreateDto dto)
         {
             var book = new Book
             {
@@ -28,27 +28,19 @@ namespace ReadersAndBooks.Services
                 AuthorId = dto.AuthorId
             };
 
-            var genres = new List<BookGenre>();
-
-            foreach (var id in dto.GenreIds)
-                genres.Add(new BookGenre { GenreId = id });
+            var genres = await _dataContext.Genres
+                .Where(g => dto.GenreIds.Contains(g.Id))
+                .ToListAsync();
 
             book.Genres = genres;
 
             _dataContext.Books.Add(book);
             _dataContext.SaveChanges();
 
-            var book = await _dataContext.Books
+            return await _dataContext.Books
                 .Include(b => b.Author)
-                .Include(b => b.Genres).ThenInclude(bg => bg.Genre) /// подгружаем данные о жанрах 
-                .FirstOrDefaultAsync(b => b.Id == book.Id);
-
-            return new BookDTO
-            {
-                Author = book.Author.ToString(),
-                Genres = book.Genres.Select(bg => bg.Genre.Name),
-                Title = book.Title
-            };
+                .Include(b => b.Genres)
+                .SingleOrDefaultAsync(b => b.Id == book.Id);
         }
 
         public void DeleteBook(int id)
