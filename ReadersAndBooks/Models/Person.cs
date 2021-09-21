@@ -10,5 +10,6 @@ namespace ReadersAndBooks.Models
         public string LastName { get; set; }
         public string MiddleName { get; set; }
         public DateTime Date { get; set;}
+        public List<Book> Books { get; set; }
     }
 }

@@ -34,12 +34,25 @@ namespace ReadersAndBooks.Data
                 .OnDelete(DeleteBehavior.Restrict);
             });
 
-            modelBuilder.Entity<Book>(entity =>
+            modelBuilder.Entity<BookGenre>(entity =>
             {
-                entity.ToTable("book");
-                entity.HasOne(d => d.Author)
-                     .WithMany(p => p.Books)
-                     .HasForeignKey(d => d.AuthorId);
+                entity.HasNoKey();
+
+                entity.ToTable("book_genre");
+
+                entity.Property(e => e.BookId).HasColumnName("book_id");
+
+                entity.Property(e => e.GenreId).HasColumnName("genre_id");
+
+                entity.HasOne(d => d.Book)
+                    .WithMany()
+                    .HasForeignKey(d => d.BookId)
+                    .HasConstraintName("FK__book_genr__book___24B26D99");
+
+                entity.HasOne(d => d.Genre)
+                    .WithMany()
+                    .HasForeignKey(d => d.GenreId)
+                    .HasConstraintName("FK__book_genr__genre__25A691D2");
             });
 
             modelBuilder.Entity<Genre>(entity =>
@@ -57,7 +70,8 @@ namespace ReadersAndBooks.Data
 
             modelBuilder.Entity<LibraryCard>(entity =>
             {
-               
+                entity.HasNoKey();
+
                 entity.ToTable("library_card");
 
                 entity.Property(e => e.BookId).HasColumnName("book_id");
@@ -66,13 +80,13 @@ namespace ReadersAndBooks.Data
 
                 entity.HasOne(d => d.Book)
                     .WithMany()
-                    .HasForeignKey(d => d.BookId);
-
+                    .HasForeignKey(d => d.BookId)
+                    .HasConstraintName("FK__library_c__book___1D114BD1");
 
                 entity.HasOne(d => d.Person)
                     .WithMany()
-                    .HasForeignKey(d => d.PersonId);
-                   
+                    .HasForeignKey(d => d.PersonId)
+                    .HasConstraintName("FK__library_c__perso__1E05700A");
             });
             modelBuilder.Entity<Person>(entity =>
             {

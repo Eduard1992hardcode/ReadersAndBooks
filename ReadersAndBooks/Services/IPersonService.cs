@@ -39,7 +39,7 @@ namespace ReadersAndBooks.Services
         /// </summary>
         /// <param name="id"> айди пользователя</param>
         /// <returns></returns>
-        public string GetUsersBooks(int id);
+        public Task<Person> GetUsersBooks(int id);
 
         /// <summary>
         /// Добавление книги в список используемых пользователем.

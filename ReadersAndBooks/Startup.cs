@@ -1,7 +1,9 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using ReadersAndBooks.Data;
 using ReadersAndBooks.Middleware;
 using ReadersAndBooks.Services;
 
@@ -23,6 +25,11 @@ namespace ReadersAndBooks
             services.AddControllersWithViews();
             services.AddControllers();
             services.AddTransient<IRepository, RepositoryService>();
+            services.AddTransient<IAuthorService, AuthorService>();
+            services.AddTransient<IBookService, BookService>();
+            services.AddTransient<IPersonService, PersonService>();
+            services.AddTransient<IGenreService, GenreService>();
+            services.AddDbContext<DataContext>(options => options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]));
 
         }
 

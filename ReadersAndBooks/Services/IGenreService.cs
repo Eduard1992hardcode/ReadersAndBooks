@@ -1,4 +1,5 @@
-﻿using ReadersAndBooks.Models;
+﻿using ReadersAndBooks.Dto;
+using ReadersAndBooks.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,6 +28,6 @@ namespace ReadersAndBooks.Services
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public Genre GetGenreStatistic(int id);
+        public GenreDto GetGenreStatistic(int id);
     }
 }

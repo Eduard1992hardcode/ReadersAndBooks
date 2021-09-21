@@ -9,7 +9,7 @@ namespace ReadersAndBooks.Services
 {
     public interface IBookService
     {
-       
+
         /// <summary>
         /// Добавление (POST) (вместе с автором и жанром) книга + автор + жанр
         /// </summary>
@@ -41,4 +41,5 @@ namespace ReadersAndBooks.Services
         /// <param name="genreId"></param>
         /// <returns></returns>
         public List<Book> GetBooksByGenre(int genreId);
+    }
 }

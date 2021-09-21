@@ -53,14 +53,21 @@ namespace ReadersAndBooks.Services
             }
         }
 
-        public List<Book> GetBookByAuthor(int authorId)
+        public  List<Book> GetBookByAuthor(int authorId)
         {
-            return _dataContext.Books.Where(b => b.AuthorId == authorId).ToList();
+            return  _dataContext.Books
+                .Include(b => b.Author)
+                .Include(b => b.Genres)
+                .Where(b => b.AuthorId == authorId).ToList();
         }
 
         public List<Book> GetBooksByGenre(int genreId)
         {
-            throw new NotImplementedException();
+            var genre = _dataContext.Genres.Find(genreId);
+            return _dataContext.Books
+                .Include(b => b.Author)
+                .Include(b => b.Genres)
+                .Where(b => b.Genres.Contains(genre)).ToList();
         }
 
         public Book UpdateBook(Book book)
@@ -68,6 +75,11 @@ namespace ReadersAndBooks.Services
             var removeBook = _dataContext.Books.Find(book.Id);
             _dataContext.Books.Remove(removeBook);
             _dataContext.Books.Add(book);
+            _dataContext.SaveChanges();
+            return _dataContext.Books
+                .Include(b => b.Author)
+                .Include(b => b.Genres)
+                .SingleOrDefault(b => b.Id == book.Id);
         }
     }
 }

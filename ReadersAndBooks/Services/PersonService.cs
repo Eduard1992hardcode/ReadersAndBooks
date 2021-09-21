@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using ReadersAndBooks.Data;
 using ReadersAndBooks.Models;
 using System;
@@ -70,9 +71,11 @@ namespace ReadersAndBooks.Services
 
         }
 
-        public string GetUsersBooks(int id)
+        public async Task<Person> GetUsersBooks(int id)
         {
-            throw new NotImplementedException();
+            return await _dataContext.People
+                 .Include(b => b.Books)
+                 .SingleOrDefaultAsync(b => b.Id == id);
         }
 
         public Person UpdatePerson(Person person)
