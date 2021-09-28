@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using ReadersAndBooks.Dto;
 using ReadersAndBooks.Services;
-using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -10,7 +8,7 @@ namespace ReadersAndBooks.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class RepositoryController : Controller
+    public class RepositoryController : ControllerBase
     {
         private readonly IRepository _repositoryService;
 

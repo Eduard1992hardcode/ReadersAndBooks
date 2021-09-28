@@ -2,20 +2,21 @@
 using ReadersAndBooks.Dto;
 using ReadersAndBooks.Models;
 using ReadersAndBooks.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace ReadersAndBooks.Controllers
 {
-    public class BooksController : Controller
+    [Route("api/[booksController]")]
+    [ApiController]
+    public class BooksController : ControllerBase
     {
         private readonly IBookService _bookService;
 
         public BooksController(IBookService bookService)
-        { _bookService = bookService; }
+        { 
+            _bookService = bookService;
+        }
 
         [HttpPost("api/addBook")]
         public async Task<Book> AddBook(BookCreateDto book)
@@ -36,9 +37,7 @@ namespace ReadersAndBooks.Controllers
             var search = new StringBuilder("Найдены книги: " + "\n");
             foreach (var book in _bookService.GetBookByAuthor(authorId))
                 search.AppendLine(book.ToString());
-
             return Ok(search.ToString());
-
         }
 
         [HttpGet("api/getBooksByGenre")]
@@ -47,7 +46,6 @@ namespace ReadersAndBooks.Controllers
             var search = new StringBuilder("Найдены книги: " + "\n");
             foreach (var book in _bookService.GetBooksByGenre(genreId))
                 search.AppendLine(book.ToString());
-
             return Ok(search.ToString());
         }
 

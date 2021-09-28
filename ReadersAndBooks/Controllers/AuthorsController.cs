@@ -1,20 +1,19 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ReadersAndBooks.Models;
 using ReadersAndBooks.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ReadersAndBooks.Controllers
 {
-    public class AuthorsController : Controller
+    [Route("api/[authorsController]")]
+    [ApiController]
+    public class AuthorsController : ControllerBase
     {
         private readonly IAuthorService _authorService;
 
         public AuthorsController(IAuthorService authorService)
-        { _authorService = authorService; }
-
+        { 
+            _authorService = authorService;
+        }
 
         [HttpGet("api/getAuthors")]
         public IActionResult GetAuthors()
@@ -23,7 +22,6 @@ namespace ReadersAndBooks.Controllers
 
         }
 
-        
         [HttpPost("api/addAuthor")]
         public IActionResult AddAuthor(Author author)
         {

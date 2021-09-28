@@ -30,7 +30,6 @@ namespace ReadersAndBooks
             services.AddTransient<IPersonService, PersonService>();
             services.AddTransient<IGenreService, GenreService>();
             services.AddDbContext<DataContext>(options => options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]));
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
