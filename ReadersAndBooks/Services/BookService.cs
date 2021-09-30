@@ -1,11 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using ReadersAndBooks.Data;
+﻿using Microsoft.Extensions.Logging;
 using ReadersAndBooks.Dto;
 using ReadersAndBooks.Models;
 using ReadersAndBooks.Repository;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace ReadersAndBooks.Services
