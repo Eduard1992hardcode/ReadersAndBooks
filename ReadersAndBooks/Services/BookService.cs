@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using ReadersAndBooks.Data;
 using ReadersAndBooks.Dto;
 using ReadersAndBooks.Models;
+using ReadersAndBooks.Repository;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,13 +12,15 @@ namespace ReadersAndBooks.Services
 {
     public class BookService : IBookService
     {
-        private readonly DataContext _dataContext;
-        private readonly ILogger<BookService> _logger;
+        private readonly IGenreRepository _genreRepository;
+        private readonly IBookRepository _bookRepository;
 
-        public BookService(DataContext dataContext, ILogger<BookService> logger)
+        public BookService(ILogger<BookService> logger,
+            IGenreRepository genreRepository,
+            IBookRepository bookRepository)
         {
-            _dataContext = dataContext;
-            _logger = logger;
+            _genreRepository = genreRepository;
+            _bookRepository = bookRepository;
         }
         public async Task<Book> AddBook(BookCreateDto dto)
         {
@@ -26,59 +29,34 @@ namespace ReadersAndBooks.Services
                 Name = dto.Title,
                 AuthorId = dto.AuthorId
             };
-
-            var genres = await _dataContext.Genres
-                .Where(g => dto.GenreIds.Contains(g.Id))
-                .ToListAsync();
-
-            book.Genres = genres;
-
-            _dataContext.Books.Add(book);
-            _dataContext.SaveChanges();
-
-            return await _dataContext.Books
-                .Include(b => b.Author)
-                .Include(b => b.Genres)
-                .SingleOrDefaultAsync(b => b.Id == book.Id);
+            
+            book.Genres = _genreRepository.Genres(dto.GenreIds);
+            return await _bookRepository.AddBook(book);
         }
 
         public void DeleteBook(int id)
         {
-            var libraryCard = _dataContext.LibraryCards.Where(l => l.BookId == id).FirstOrDefault();
-            if (libraryCard.Equals(null)) {
-                var book =_dataContext.Books.Find(id);
-                _dataContext.Books.Remove(book);
-                _dataContext.SaveChanges();
-            }
+            _bookRepository.DeleteBook(id);
         }
 
         public  List<Book> GetBookByAuthor(int authorId)
         {
-            return  _dataContext.Books
-                .Include(b => b.Author)
-                .Include(b => b.Genres)
-                .Where(b => b.AuthorId == authorId).ToList();
+            return _bookRepository.GetBookByAuthor(authorId);
         }
 
         public List<Book> GetBooksByGenre(int genreId)
         {
-            var genre = _dataContext.Genres.Find(genreId);
-            return _dataContext.Books
-                .Include(b => b.Author)
-                .Include(b => b.Genres)
-                .Where(b => b.Genres.Contains(genre)).ToList();
+            return _bookRepository.GetBooksByGenre(genreId);
         }
 
-        public Book UpdateBook(Book book)
+        public Book UpdateBook(BookDto dto)
         {
-            var removeBook = _dataContext.Books.Find(book.Id);
-            _dataContext.Books.Remove(removeBook);
-            _dataContext.Books.Add(book);
-            _dataContext.SaveChanges();
-            return _dataContext.Books
-                .Include(b => b.Author)
-                .Include(b => b.Genres)
-                .SingleOrDefault(b => b.Id == book.Id);
+            var book = new Book
+            {
+                Name = dto.Title,
+                AuthorId = dto.AuthorId
+            };
+            return _bookRepository.UpdateBook(book);
         }
     }
 }

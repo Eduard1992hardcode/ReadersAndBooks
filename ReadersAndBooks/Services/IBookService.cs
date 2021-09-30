@@ -25,7 +25,7 @@ namespace ReadersAndBooks.Services
         /// </summary>
         /// <param name="book"></param>
         /// <returns></returns>
-        public Book UpdateBook(Book book);
+        public Book UpdateBook(BookDto dto);
 
         /// <summary>
         /// Можно получить список всех книг с фильтром по автору (По любой комбинации трёх полей сущности автор. Имеется  ввиду условие equals + and )

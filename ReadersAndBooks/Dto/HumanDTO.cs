@@ -19,7 +19,7 @@ namespace ReadersAndBooks.Dto
 
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
        public DateTime Birthday { get; set; }
-       public List<BookDTO> Books { get; set; }
+       public List<BookDto> Books { get; set; }
 
         public override string ToString()
         {

@@ -29,7 +29,7 @@ namespace ReadersAndBooks.Services
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public BookDTO GetBook(int id);
+        public BookDto GetBook(int id);
 
         /// <summary>
         /// Добавление человека
@@ -47,20 +47,20 @@ namespace ReadersAndBooks.Services
         /// Получить список книг
         /// </summary>
         /// <returns></returns>
-        List<BookDTO> GetBook();
+        List<BookDto> GetBook();
 
         /// <summary>
         /// Получить список книг одного автора
         /// </summary>
         /// <param name="authorId"> Id автора</param>
         /// <returns></returns>
-        List<BookDTO> GetBookBiAuthorId(int authorId);
+        List<BookDto> GetBookBiAuthorId(int authorId);
 
         /// <summary>
         /// Добавление книги
         /// </summary>
         /// <param name="book"> Добавляемая книга</param>
-        void AddBook(BookDTO book);
+        void AddBook(BookDto book);
 
         /// <summary>
         /// Удалить книгу
@@ -73,7 +73,7 @@ namespace ReadersAndBooks.Services
         /// </summary>
         /// <param name="query">Автору, имя книги или жанр</param>
         /// <returns></returns>
-        public List<BookDTO> GetBooksBiQuery(string query);
+        public List<BookDto> GetBooksBiQuery(string query);
 
     }
 }

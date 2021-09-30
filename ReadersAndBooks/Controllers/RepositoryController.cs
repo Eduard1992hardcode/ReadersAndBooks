@@ -58,7 +58,7 @@ namespace ReadersAndBooks.Controllers
         }
 
         [HttpPost("api/addBook")]
-        public IActionResult AddBook([FromBody] BookDTO book)
+        public IActionResult AddBook([FromBody] BookDto book)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -78,7 +78,7 @@ namespace ReadersAndBooks.Controllers
         }
 
         [HttpGet("api/bookBiAuhorId")]
-        public ActionResult<List<BookDTO>> GetBooksBiAuhorId(int id)
+        public ActionResult<List<BookDto>> GetBooksBiAuhorId(int id)
         {
             if (_repositoryService.GetBookBiAuthorId(id).Count == 0)
                 return BadRequest("Книги не найдены");
