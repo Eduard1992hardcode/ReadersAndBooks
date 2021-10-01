@@ -10,6 +10,7 @@ namespace ReadersAndBooks.Repository
         public List<Book> GetBookByAuthor(int authorId);
         public List<Book> GetBooksByGenre(int genreId);
         public Book UpdateBook(Book book);
-        public void DeleteBook(int id)
+        public void DeleteBook(int id);
+        public Book GetBook(int id);
     }
 }

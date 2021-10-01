@@ -6,8 +6,8 @@ using System.Text;
 
 namespace ReadersAndBooks.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
+    
+    [Route("api/repository")]
     public class RepositoryController : ControllerBase
     {
         private readonly IRepository _repositoryService;

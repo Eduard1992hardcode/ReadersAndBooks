@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using ReadersAndBooks.Data;
 using ReadersAndBooks.Middleware;
+using ReadersAndBooks.Repository;
 using ReadersAndBooks.Services;
 
 namespace ReadersAndBooks
@@ -29,6 +30,8 @@ namespace ReadersAndBooks
             services.AddTransient<IBookService, BookService>();
             services.AddTransient<IPersonService, PersonService>();
             services.AddTransient<IGenreService, GenreService>();
+            services.AddTransient<IBookRepository, BookRepository>();
+            services.AddTransient<IGenreRepository, GenreRepository>();
             services.AddDbContext<DataContext>(options => options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]));
         }
 

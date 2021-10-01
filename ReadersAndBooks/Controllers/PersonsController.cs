@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace ReadersAndBooks.Controllers
 {
-    [Route("api/[personsController]")]
-    [ApiController]
+    
+    [Route("api/persons")]
     public class PersonsController : ControllerBase
     {
         private readonly IPersonService _personService;

@@ -39,5 +39,7 @@ namespace ReadersAndBooks.Services
         /// <param name="genreId"></param>
         /// <returns></returns>
         public List<Book> GetBooksByGenre(int genreId);
+
+        public Book GetBook(int id);
     }
 }

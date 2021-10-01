@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace ReadersAndBooks.Controllers
 {
-    [Route("api/[booksController]")]
-    [ApiController]
+    
+    [Route("api/books")]
     public class BooksController : ControllerBase
     {
         private readonly IBookService _bookService;
@@ -50,7 +50,7 @@ namespace ReadersAndBooks.Controllers
         }
 
         [HttpPut("api/updateBook")]
-        public IActionResult UpdateBook(Book book)
+        public IActionResult UpdateBook(BookDto book)
         {
             _bookService.UpdateBook(book);
             return Ok(book);

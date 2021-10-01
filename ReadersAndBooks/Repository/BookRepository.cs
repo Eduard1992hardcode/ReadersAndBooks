@@ -68,5 +68,9 @@ namespace ReadersAndBooks.Repository
             }
             else _logger.LogInformation("Книга недоступна для удаления");
         }
+        public Book GetBook(int id)
+        {
+            return _dataContext.Books.Find(id);
+        }
     }
 }

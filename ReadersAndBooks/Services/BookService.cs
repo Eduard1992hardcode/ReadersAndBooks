@@ -12,8 +12,7 @@ namespace ReadersAndBooks.Services
         private readonly IGenreRepository _genreRepository;
         private readonly IBookRepository _bookRepository;
 
-        public BookService(ILogger<BookService> logger,
-            IGenreRepository genreRepository,
+        public BookService(IGenreRepository genreRepository,
             IBookRepository bookRepository)
         {
             _genreRepository = genreRepository;
@@ -54,6 +53,10 @@ namespace ReadersAndBooks.Services
                 AuthorId = dto.AuthorId
             };
             return _bookRepository.UpdateBook(book);
+        }
+        public Book GetBook(int id)
+        {
+           return _bookRepository.GetBook(id);
         }
     }
 }

@@ -4,8 +4,8 @@ using ReadersAndBooks.Services;
 
 namespace ReadersAndBooks.Controllers
 {
-    [Route("api/[authorsController]")]
-    [ApiController]
+    
+    [Route("api/[controller]")]
     public class AuthorsController : ControllerBase
     {
         private readonly IAuthorService _authorService;
@@ -18,12 +18,13 @@ namespace ReadersAndBooks.Controllers
         [HttpGet("api/getAuthors")]
         public IActionResult GetAuthors()
         {
-            return Ok(_authorService.GetAuthors());
+            var authors =_authorService.GetAuthors();
+            return Ok(authors.ToString());
 
         }
 
         [HttpPost("api/addAuthor")]
-        public IActionResult AddAuthor(Author author)
+        public IActionResult AddAuthor([FromBody] Author author)
         {
             _authorService.AddAuthor(author);
             return Ok(author);

@@ -5,8 +5,8 @@ using System.Text;
 
 namespace ReadersAndBooks.Controllers
 {
-    [Route("api/[genresController]")]
-    [ApiController]
+    
+    [Route("api/genres")]
     public class GenresController : ControllerBase
     {
         private readonly IGenreService _genreService;
