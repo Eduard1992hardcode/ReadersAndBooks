@@ -15,31 +15,71 @@ namespace ReadersAndBooks.Tests.Sevices
     {
         private readonly Mock<IBookRepository> _mockBookRepository;
         private readonly Mock<IGenreRepository> _mockGenreRepository;
+        private readonly Mock<BookService> _mockBookService;
 
         public BookServiceTests()
         {
             _mockBookRepository = new Mock<IBookRepository>();
             _mockGenreRepository = new Mock<IGenreRepository>();
+            _mockBookService = new Mock<BookService>(_mockGenreRepository.Object, _mockBookRepository.Object);
         }
 
 
         [Fact]
-        public void AddBook_WithExistBookDto_ShouldReturn_BookAsync()
+        public void GetBookByAuthor_ActionExecutes_ReturnsBooksList()
         {
             //arrange
-            var bookDto = new BookCreateDto {Title = "War and Peace", AuthorId = 1 };
-            var book = new Book {Id = 1, Name = "War and Peace", AuthorId = 1 };
-            _mockBookRepository.Setup(a => a.AddBook(book)).Returns(Task.FromResult(new Book()));
-            
-            //act
-            var service = new BookService(_mockGenreRepository.Object, _mockBookRepository.Object);
-            service.AddBook(bookDto);
-            var bookRes = service.GetBook(book.Id);
-            var result = service.GetBook(book.Id);
-            //assert
-            Assert.IsType<Book>(result);
-        }
-        
+            var books = new List<Book>(){
+            new Book {Name = "War and Peace", AuthorId = 1},
+            new Book {Name = "A Hunter's Sketches", AuthorId = 2} };
 
+            _mockBookRepository.Setup(r => r.GetBookByAuthor(1)).Returns(books);
+            //act
+            var result = _mockBookService.Object.GetBookByAuthor(1);
+            //assert
+            Assert.Equal(2, result.Count);
+
+        }
+
+        [Fact]
+        public void GetBookByGenre_ActionExecutes_ReturnsBooksList()
+        {
+            //arrange
+            var books = new List<Book>(){
+            new Book {Name = "War and Peace", AuthorId = 1},
+            new Book {Name = "A Hunter's Sketches", AuthorId = 2} };
+
+            _mockBookRepository.Setup(r => r.GetBooksByGenre(1)).Returns(books);
+            //act
+            var result = _mockBookService.Object.GetBooksByGenre(1);
+            //assert
+            Assert.Equal(2, result.Count);
+        }
+
+        [Fact]
+        public void CreateBook_ActionExecutes_ReturnsBook()
+        {
+            //arrange
+            var bookDto = new BookCreateDto { Title = "War and Peace", AuthorId = 1 };
+            var book = _mockBookService.Object.AddBook(bookDto);
+            _mockBookRepository.Setup(r => r.AddBook(book)).Returns(book);
+            //act
+            var result = _mockBookRepository.Object.AddBook(book);
+            //assert
+            Assert.Equal(book, result);
+        }
+
+        [Fact]
+        public void UpdateBook_ActionExecutes_ReturnsBook()
+        {
+            //arrange
+            var bookDto = new BookCreateDto { Title = "War and Peace", AuthorId = 1 };
+            var book = _mockBookService.Object.AddBook(bookDto);
+            _mockBookRepository.Setup(r => r.AddBook(book)).Returns(book);
+            //act
+            var result = _mockBookRepository.Object.UpdateBook(book);
+            //assert
+            Assert.Equal(book, result);
+        }
     }
 }

@@ -6,7 +6,7 @@ namespace ReadersAndBooks.Repository
 {
     public interface IBookRepository
     {
-        public Task<Book> AddBook(Book book);
+        public Book AddBook(Book book);
         public List<Book> GetBookByAuthor(int authorId);
         public List<Book> GetBooksByGenre(int genreId);
         public Book UpdateBook(Book book);

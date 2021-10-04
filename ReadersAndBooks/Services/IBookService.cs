@@ -13,7 +13,7 @@ namespace ReadersAndBooks.Services
         /// </summary>
         /// <param name="book"></param>
         /// <returns></returns>
-        public Task<Book> AddBook(BookCreateDto dto);
+        public Book AddBook(BookCreateDto dto);
         /// <summary>
         /// Книга может быть удалена из списка библиотеки (но только если она не у пользователя) по ID (ок, или ошибка, что книга у пользователя)
         /// </summary>

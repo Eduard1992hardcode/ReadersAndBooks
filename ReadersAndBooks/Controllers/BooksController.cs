@@ -19,9 +19,9 @@ namespace ReadersAndBooks.Controllers
         }
 
         [HttpPost("api/addBook")]
-        public async Task<Book> AddBook(BookCreateDto book)
+        public Book AddBook(BookCreateDto book)
         {
-            return await _bookService.AddBook(book);
+            return  _bookService.AddBook(book);
         }
 
         [HttpDelete("api/deleteBook")]

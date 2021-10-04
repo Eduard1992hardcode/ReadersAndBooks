@@ -19,16 +19,16 @@ namespace ReadersAndBooks.Repository
             _dataContext = dataContext;
             _logger = logger;
         }
-        public async Task<Book> AddBook(Book book)
+        public  Book AddBook(Book book)
         {
            
             _dataContext.Books.Add(book);
             _dataContext.SaveChanges();
 
-            return await _dataContext.Books
+            return  _dataContext.Books
                 .Include(b => b.Author)
                 .Include(b => b.Genres)
-                .SingleOrDefaultAsync(b => b.Id == book.Id);
+                .SingleOrDefault(b => b.Id == book.Id);
         }
 
         public List<Book> GetBookByAuthor(int authorId)

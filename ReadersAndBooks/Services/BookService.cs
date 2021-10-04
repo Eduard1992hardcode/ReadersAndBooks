@@ -18,7 +18,7 @@ namespace ReadersAndBooks.Services
             _genreRepository = genreRepository;
             _bookRepository = bookRepository;
         }
-        public async Task<Book> AddBook(BookCreateDto dto)
+        public Book AddBook(BookCreateDto dto)
         {
             var book = new Book
             {
@@ -27,7 +27,8 @@ namespace ReadersAndBooks.Services
             };
             
             book.Genres = _genreRepository.Genres(dto.GenreIds);
-            return await _bookRepository.AddBook(book);
+            var result =   _bookRepository.AddBook(book);
+            return result;
         }
 
         public void DeleteBook(int id)
