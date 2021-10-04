@@ -6,12 +6,12 @@ namespace ReadersAndBooks.Services
 {
     public static class MuteDb
     {
-        public static List<BookDTO> GetBooks() {
-            var books = new List<BookDTO>(){
-            new BookDTO {Title = "War and Peace", Author = "Tolstoy",Genre = "Action", AuthorId = 1},
-            new BookDTO {Title = "A Hunter's Sketches", Author = "Turgenev",Genre = "Biopic", AuthorId = 2},
-            new BookDTO {Title = "Three comrades", Author = "Remark",Genre = "Tragedy", AuthorId = 3},
-            new BookDTO {Title = "Black obelisk", Author = "Remark",Genre = "Tragedy", AuthorId = 3}
+        public static List<BookDto> GetBooks() {
+            var books = new List<BookDto>(){
+            new BookDto {Title = "War and Peace", Author = "Tolstoy",Genre = "Action", AuthorId = 1},
+            new BookDto {Title = "A Hunter's Sketches", Author = "Turgenev",Genre = "Biopic", AuthorId = 2},
+            new BookDto {Title = "Three comrades", Author = "Remark",Genre = "Tragedy", AuthorId = 3},
+            new BookDto {Title = "Black obelisk", Author = "Remark",Genre = "Tragedy", AuthorId = 3}
           };
             return books;
         }

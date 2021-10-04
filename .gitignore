@@ -9,3 +9,6 @@
 /.vs/ReadersAndBooks/DesignTimeBuild
 /ReadersAndBooks/bin/Debug/net5.0
 /.vs/ReadersAndBooks/config
+/.vs/VSWorkspaceState.json
+/ReadersAndBooks.Tests/obj
+/ReadersAndBooks.Tests/bin/Debug/net5.0

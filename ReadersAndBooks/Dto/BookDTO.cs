@@ -2,7 +2,7 @@
 
 namespace ReadersAndBooks.Dto
 {
-    public class BookDTO
+    public class BookDto
     {
         public int Id { get; set; }
 

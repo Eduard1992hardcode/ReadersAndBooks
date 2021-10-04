@@ -1,8 +1,11 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using ReadersAndBooks.Data;
 using ReadersAndBooks.Middleware;
+using ReadersAndBooks.Repository;
 using ReadersAndBooks.Services;
 
 namespace ReadersAndBooks
@@ -23,7 +26,13 @@ namespace ReadersAndBooks
             services.AddControllersWithViews();
             services.AddControllers();
             services.AddTransient<IRepository, RepositoryService>();
-
+            services.AddTransient<IAuthorService, AuthorService>();
+            services.AddTransient<IBookService, BookService>();
+            services.AddTransient<IPersonService, PersonService>();
+            services.AddTransient<IGenreService, GenreService>();
+            services.AddTransient<IBookRepository, BookRepository>();
+            services.AddTransient<IGenreRepository, GenreRepository>();
+            services.AddDbContext<DataContext>(options => options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -35,7 +44,7 @@ namespace ReadersAndBooks
             app.UseStaticFiles();
 
             app.UseRouting();
-
+             
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

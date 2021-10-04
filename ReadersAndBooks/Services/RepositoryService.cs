@@ -8,7 +8,7 @@ namespace ReadersAndBooks.Services
     public class RepositoryService : IRepository
     {
         private readonly List<HumanDTO> _humen;
-        private readonly List<BookDTO> _books;
+        private readonly List<BookDto> _books;
         private readonly ILogger<RepositoryService> _logger;
 
         public RepositoryService(ILogger<RepositoryService> logger)
@@ -20,7 +20,7 @@ namespace ReadersAndBooks.Services
         }
 
 
-        public void AddBook(BookDTO book)
+        public void AddBook(BookDto book)
         {
             _logger.LogInformation("Книга : " + book.Title + " добавленa");
             _books.Add(book);
@@ -62,18 +62,18 @@ namespace ReadersAndBooks.Services
             return "+";
         }
 
-        public List<BookDTO> GetBook()
+        public List<BookDto> GetBook()
         {
             return _books;
         }
 
-        public BookDTO GetBook(int id)
+        public BookDto GetBook(int id)
         {
             return _books
                 .Where(x => x.Id == id).FirstOrDefault();
         }
 
-        public List<BookDTO> GetBookBiAuthorId(int authorId)
+        public List<BookDto> GetBookBiAuthorId(int authorId)
         {
             var books = _books
                 .Where(x => x.AuthorId == authorId).ToList(); ;
@@ -101,7 +101,7 @@ namespace ReadersAndBooks.Services
                 ||
          x.Patronymic.Contains(query)).ToList();
         }
-        public List<BookDTO> GetBooksBiQuery(string query)
+        public List<BookDto> GetBooksBiQuery(string query)
         {
             return _books
                 .Where(x => x.Author.Contains(query)

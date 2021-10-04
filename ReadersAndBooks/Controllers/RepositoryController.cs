@@ -1,16 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using ReadersAndBooks.Dto;
 using ReadersAndBooks.Services;
-using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace ReadersAndBooks.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class RepositoryController : Controller
+    
+    [Route("api/repository")]
+    public class RepositoryController : ControllerBase
     {
         private readonly IRepository _repositoryService;
 
@@ -60,7 +58,7 @@ namespace ReadersAndBooks.Controllers
         }
 
         [HttpPost("api/addBook")]
-        public IActionResult AddBook([FromBody] BookDTO book)
+        public IActionResult AddBook([FromBody] BookDto book)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -80,7 +78,7 @@ namespace ReadersAndBooks.Controllers
         }
 
         [HttpGet("api/bookBiAuhorId")]
-        public ActionResult<List<BookDTO>> GetBooksBiAuhorId(int id)
+        public ActionResult<List<BookDto>> GetBooksBiAuhorId(int id)
         {
             if (_repositoryService.GetBookBiAuthorId(id).Count == 0)
                 return BadRequest("Книги не найдены");
