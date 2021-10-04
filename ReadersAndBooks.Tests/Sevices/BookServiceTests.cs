@@ -1,11 +1,9 @@
 ﻿using Moq;
-using ReadersAndBooks.Controllers;
 using ReadersAndBooks.Dto;
 using ReadersAndBooks.Models;
 using ReadersAndBooks.Repository;
 using ReadersAndBooks.Services;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using Xunit;
 
 
@@ -24,7 +22,6 @@ namespace ReadersAndBooks.Tests.Sevices
             _mockBookService = new Mock<BookService>(_mockGenreRepository.Object, _mockBookRepository.Object);
         }
 
-
         [Fact]
         public void GetBookByAuthor_ActionExecutes_ReturnsBooksList()
         {
@@ -38,7 +35,6 @@ namespace ReadersAndBooks.Tests.Sevices
             var result = _mockBookService.Object.GetBookByAuthor(1);
             //assert
             Assert.Equal(2, result.Count);
-
         }
 
         [Fact]

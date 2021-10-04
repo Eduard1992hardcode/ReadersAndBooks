@@ -1,9 +1,7 @@
-﻿using Microsoft.Extensions.Logging;
-using ReadersAndBooks.Dto;
+﻿using ReadersAndBooks.Dto;
 using ReadersAndBooks.Models;
 using ReadersAndBooks.Repository;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace ReadersAndBooks.Services
 {

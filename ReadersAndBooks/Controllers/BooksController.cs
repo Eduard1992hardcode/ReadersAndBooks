@@ -3,11 +3,10 @@ using ReadersAndBooks.Dto;
 using ReadersAndBooks.Models;
 using ReadersAndBooks.Services;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace ReadersAndBooks.Controllers
 {
-    
+
     [Route("api/books")]
     public class BooksController : ControllerBase
     {
